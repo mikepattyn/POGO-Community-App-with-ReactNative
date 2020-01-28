@@ -1,0 +1,11 @@
+{
+  "name": "pogo-community-app-with-reactnative",
+  "version": "0.0.1",
+  "description": "A react native application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
