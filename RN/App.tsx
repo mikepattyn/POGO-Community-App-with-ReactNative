@@ -4,8 +4,10 @@ import { Text, View } from 'react-native';
 export default class App extends Component {
   render() {
     return (
-      <View>
-        <Text>Hello World!</Text>
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+            <Text>Rayder</Text>
+        </View>
       </View>
     );
   }
