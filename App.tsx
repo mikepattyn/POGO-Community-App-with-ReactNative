@@ -2,11 +2,10 @@ import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import React, { Component } from "react";
-import { View, Text, Button, TabBarIOS } from "react-native";
+import { View, Text, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { Component } from "react";
+import React from "react"
 class WelcomeScreen extends Component<any> {
   render() {
     return (
@@ -89,8 +88,6 @@ const AppSwitchNavigator = createSwitchNavigator({
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
 
-export default class App extends Component<any> {
-  render() {
-    return <AppContainer />
-  }
-}
+const App = (props) => (<AppContainer />)
+
+export {App}
