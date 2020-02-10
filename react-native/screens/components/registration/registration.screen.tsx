@@ -23,7 +23,6 @@ export class RegistrationScreen extends React.Component<any, RegistrationState> 
         console.log(this.props)
         return (
             <ImageBackground source={require('./../../../resources/images/home_background.png')} imageStyle={{ resizeMode: "contain" }} style={{ width: '100%', height: '100%', backgroundColor: "#232424" }}>
-
                 <View style={{ flex: 1 }}></View>
                 <View style={{ flex: 1, alignItems: "center", width: "100%", padding: 20 }}>
                     <View style={{ flex: 1, justifyContent: "space-evenly", width: "100%" }}>

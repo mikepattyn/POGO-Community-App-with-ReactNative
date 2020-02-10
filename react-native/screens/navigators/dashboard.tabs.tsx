@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ProfileScreen } from "../components/profile/profile.screen";
-import { MapsScreen } from "../components/maps/maps.screen";
+import MapsScreen from "../components/maps/maps.screen";
 import React from "react";
 const DashboardTabNavigator = createBottomTabNavigator()
 export const DashboardTabs = () => {

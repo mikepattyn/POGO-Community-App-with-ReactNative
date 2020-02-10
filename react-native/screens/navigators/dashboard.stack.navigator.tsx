@@ -7,10 +7,12 @@ export const DashboardStackNavigator = createStackNavigator({
         navigationOptions: {
             title: "POGO Community Raid Bot",
             headerStyle: {
-                backgroundColor: "#232424"
+                backgroundColor: "#232424",
+                borderBottomColor: "#474848"
             },
             headerTitleStyle: {
-                color: "#e1e1e1"
+                color: "#e1e1e1",
+                textAlign: "center"
             }
         }
     }
