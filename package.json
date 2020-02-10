@@ -31,7 +31,7 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
-    "expo": "^35.0.0",
+    "expo": "^36.0.0",
     "expo-linear-gradient": "~7.0.0",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
