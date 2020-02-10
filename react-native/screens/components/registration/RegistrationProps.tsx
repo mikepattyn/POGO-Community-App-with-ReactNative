@@ -1,4 +1,4 @@
-export interface RegistrationScreenProps {
+export interface RegistrationProps {
     PropertyCommand: string;
     PropertyType: string;
     RegistrationCompleted: boolean;

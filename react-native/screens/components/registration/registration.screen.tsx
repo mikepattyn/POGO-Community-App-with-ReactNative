@@ -2,14 +2,13 @@ import * as React from "react";
 import { View, Text, ImageBackground } from "react-native";
 import validator from "email-validator"
 import { RegistrationInput } from "../../elements/registration.input";
-import { HeaderSubcomponent } from "../../subcomponents/header/header.subcomponent";
 import { RegistrationState } from "./RegistrationState";
-import { RegistrationScreenProps } from "./RegistrationScreenProps";
+import { RegistrationProps } from "./RegistrationProps";
 import { Button } from "react-native-elements";
 
-export class RegistrationScreenComponent extends React.Component<any, RegistrationState> {
+export class RegistrationScreen extends React.Component<any, RegistrationState> {
     private propertyCommands: string[] = ["Enter your email address", "Enter your password", "Re-enter your password", "Enter your Discord id", "Enter your first name", "Enter your nickname", "Enter your level", "Select your team"]
-    constructor(props: RegistrationScreenProps) {
+    constructor(props: RegistrationProps) {
         super(props);
         this.state = {
             index: 0,
