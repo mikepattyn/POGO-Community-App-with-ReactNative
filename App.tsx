@@ -1,18 +1,39 @@
-import { createSwitchNavigator, createAppContainer } from "react-navigation";
+import { createSwitchNavigator, createAppContainer, } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, Button } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
+import { Button } from "react-native-elements"
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { Component } from "react"
+import { SettingsManager } from "./react-native/managers/settings/settings.manager";
+import { RegistrationScreenComponent } from "./react-native/screens/components/registration/registration.screen.component";
 class WelcomeScreen extends Component<any> {
+
+  registrationManager: SettingsManager = new SettingsManager();
+
+  constructor(props) {
+    super(props)
+    // this.registrationManager.registration.storeData("Registration", JSON.stringify(this.registrationManager.registration.settings))
+
+  }
+
   render() {
+    console.log(this.props)
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Button title='Login' onPress={() => this.props.navigation.navigate('Dashboard')} />
-        <Button title='Sign Up' onPress={() => alert("sign up button pressed")} />
-      </View>
+      <ImageBackground source={require('./react-native/resources/images/home_background.png')} imageStyle={{ resizeMode: "contain" }} style={{ width: '100%', height: '100%', backgroundColor: "#232424" }}>
+        <View style={{ flex: 1, justifyContent: "flex-end", alignItems: "center" }}>
+          <Text>Welcome blablablabla</Text>
+        </View>
+        <View style={{ flex: 1, justifyContent: "flex-end", alignItems: "center" }}>
+          <Button containerStyle={{ width: "100%", paddingHorizontal: 20 }} buttonStyle={{
+            backgroundColor: "#2164E8"
+          }} title='Login' onPress={() => this.props.navigation.navigate('Dashboard')} />
+          <Text style={{ textDecorationLine: "underline", fontSize: 12, marginTop: 10, marginBottom: 20, color: "#e1e1e1" }} numberOfLines={1} onPress={() => this.props.navigation.navigate('Registration')}>Dont have an account yet? Click here to sign up.</Text>
+        </View>
+      </ImageBackground>
+
     );
   }
 }
@@ -95,7 +116,8 @@ const AppDrawerNavigator = createDrawerNavigator({
 
 const AppSwitchNavigator = createSwitchNavigator({
   Welcome: { screen: WelcomeScreen },
-  Dashboard: { screen: AppDrawerNavigator }
+  Dashboard: { screen: AppDrawerNavigator },
+  Registration: { screen: RegistrationScreenComponent }
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

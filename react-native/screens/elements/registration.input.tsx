@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { View, TextInput, Picker } from "react-native";
+import { Input } from "react-native-elements"
 
 
 export interface IRegistrationInput {
     index: number;
-    value: string | number
-    onChange: any
+    value: string | number;
+    name: string;
+    onChange: any;
 }
 
 export class RegistrationInput extends Component<IRegistrationInput> {
     render() {
         if (![6, 7].some(x => x === this.props.index)) {
             return (
-                <View>
-                    <TextInput onChangeText={this.props.onChange} value={String(this.props.value)} />
+                <View style={{ width: "100%" }}>
+                    <Input inputStyle={{ color: "#e1e1e1", textAlign: "center", textAlignVertical: "center" }} placeholder={this.props.name} onChangeText={this.props.onChange} value={String(this.props.value)} />
                 </View >
             )
         }
@@ -24,10 +26,10 @@ export class RegistrationInput extends Component<IRegistrationInput> {
                     pickerItems.push(<Picker.Item key={i} label={i.toString()} value={i} />)
                 }
                 return (
-                    <View>
+                    <View style={{ width: "100%" }}>
                         <Picker
                             selectedValue={this.props.value}
-                            style={{ height: 50, width: 150 }}
+                            style={{ height: 50, width: "100%" }}
                             onValueChange={this.props.onChange}>
                             {pickerItems}
                         </Picker>
@@ -35,10 +37,10 @@ export class RegistrationInput extends Component<IRegistrationInput> {
                 )
             } else if (this.props.index == 7) {
                 return (
-                    <View>
+                    <View style={{ width: "100%" }}>
                         <Picker
                             selectedValue={this.props.value}
-                            style={{ height: 50, width: 150 }}
+                            style={{ height: 50, width: "100%" }}
                             onValueChange={this.props.onChange}>
                             <Picker.Item label="Select a team" value={3} />
                             <Picker.Item label="Instinct" value={0} />

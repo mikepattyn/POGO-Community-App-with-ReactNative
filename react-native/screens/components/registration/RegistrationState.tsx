@@ -2,6 +2,7 @@ export interface RegistrationState {
     index: number;
     currentValue: string;
     currentButtonValue: string;
+    currentNameValue: string;
     Email?: string;
     Password?: string;
     Password2?: string;

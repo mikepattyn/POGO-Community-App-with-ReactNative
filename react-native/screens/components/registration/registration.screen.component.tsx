@@ -1,10 +1,11 @@
 import * as React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import validator from "email-validator"
 import { RegistrationInput } from "../../elements/registration.input";
 import { HeaderSubcomponent } from "../../subcomponents/header/header.subcomponent";
 import { RegistrationState } from "./RegistrationState";
 import { RegistrationScreenProps } from "./RegistrationScreenProps";
+import { Button } from "react-native-elements";
 
 export class RegistrationScreenComponent extends React.Component<any, RegistrationState> {
     private propertyCommands: string[] = ["Enter your email address", "Enter your password", "Re-enter your password", "Enter your Discord id", "Enter your first name", "Enter your nickname", "Enter your level", "Select your team"]
@@ -14,6 +15,7 @@ export class RegistrationScreenComponent extends React.Component<any, Registrati
             index: 0,
             currentValue: "",
             currentButtonValue: "Next",
+            currentNameValue: "Email",
             Error: ""
         }
         this.onChangeText = this.onChangeText.bind(this);
@@ -21,15 +23,18 @@ export class RegistrationScreenComponent extends React.Component<any, Registrati
     render() {
         console.log(this.props)
         return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <HeaderSubcomponent navigation={this.props.navigation} />
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <Text>{this.propertyCommands[this.state.index]}</Text>
-                    <RegistrationInput index={this.state.index} onChange={(text: string) => this.onChangeText(text)} value={this.state.currentValue} />
-                    <Text>{this.state.Error}</Text>
-                    <Button title={this.state.currentButtonValue} onPress={() => this.onSubmit()} disabled={this.state.Error != undefined} />
+            <ImageBackground source={require('./../../../resources/images/home_background.png')} imageStyle={{ resizeMode: "contain" }} style={{ width: '100%', height: '100%', backgroundColor: "#232424" }}>
+
+                <View style={{ flex: 1 }}></View>
+                <View style={{ flex: 1, alignItems: "center", width: "100%", padding: 20 }}>
+                    <View style={{ flex: 1, justifyContent: "space-evenly", width: "100%" }}>
+                        <Text style={{ fontSize: 20, color: "#e1e1e1", textAlign: "center" }}>{this.propertyCommands[this.state.index]}</Text>
+                        <RegistrationInput index={this.state.index} onChange={(text: string) => this.onChangeText(text)} value={this.state.currentValue} name={this.state.currentNameValue} />
+                        <Text style={{ fontSize: 14, color: "red", textAlign: "center" }}>{this.state.Error}</Text>
+                    </View>
                 </View>
-            </View>
+                <Button containerStyle={{ width: "100%", paddingHorizontal: 20 }} buttonStyle={{ backgroundColor: "#2164E8", marginBottom: 20 }} title={this.state.currentButtonValue} onPress={() => this.onSubmit()} disabled={this.state.Error != undefined} />
+            </ImageBackground>
         )
     }
     onChangeText(text: string) {
@@ -198,17 +203,60 @@ export class RegistrationScreenComponent extends React.Component<any, Registrati
         }
     }
     async onSubmit() {
-        if (this.state.index == 7) {
-            // this.settingsManager.registration.settings = { Email: this.state.Email, Password: this.state.Password, FirstName: this.state.FirstName, Nickname: this.state.Nickname, Level: this.state.Level, Team: this.state.Team }
-            // console.log(this.settingsManager.registration.settings)
-        } else {
+        if (this.state.index == 0) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Password"
+            }))
+        }
+        else if (this.state.index == 1) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Re-enter password"
+            }))
+        }
+        else if (this.state.index == 2) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Discord id"
+            }))
+        }
+        else if (this.state.index == 3) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Firstname"
+            }))
+        }
+        else if (this.state.index == 4) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Nickname"
+            }))
+        }
+        else if (this.state.index == 5) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Level"
+            }))
+        }
+        else if (this.state.index == 6) {
+            this.setState((prevState) => ({
+                ...prevState,
+                currentNameValue: "Team"
+            }))
+        }
+
+        if (this.state.index < 7) {
             this.setState((prevState) => ({
                 ...prevState,
                 index: this.state.index + 1,
                 currentValue: "",
                 Error: ""
             }))
+        } else if (this.state.index == 7) {
+            this.props.navigation.navigate('Dashboard')
         }
+
     }
 
 }
