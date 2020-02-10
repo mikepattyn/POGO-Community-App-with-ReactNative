@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Component } from "react";
 import React from "react"
 class WelcomeScreen extends Component<any> {
@@ -52,6 +53,19 @@ function DashboardTabs(): any {
     <NavigationContainer>
       <DashboardTabNavigator.Navigator
         initialRouteName="Feed"
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          if(route.name == "Feed") {
+            iconName = focused ? 'home' : 'home-outline'
+          } else if(route.name === 'Profile') {
+            iconName = focused ? 'account-circle' : 'account-circle-outline'
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'settings' : 'settings-outline';
+          }
+          return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+        }
+      })}
       >
         <DashboardTabNavigator.Screen
           name="Feed"
