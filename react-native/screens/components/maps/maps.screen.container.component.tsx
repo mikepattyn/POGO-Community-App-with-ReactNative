@@ -1,48 +1,46 @@
 import React, { Component } from "react";
 import { MapComponent } from "./maps.component";
 import { isNullOrUndefined } from "util";
+import { View } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 
 export class MapsScreenContainer<P, S> extends Component<any, any> {
+    /**
+     *
+     */
+    constructor(props) {
+        super(props);
+        this.onUserLocationChange = this.onUserLocationChange.bind(this)
+    }
     map: any
-    private ifUpdatedByDev = false
     // _mapView: MapView
-    componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
-        if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
-            if (isScriptLoadSucceed) {
-                this.initMap()
-                this.ifUpdatedByDev = true;
-                this.getCurrentPosition()
-                this.forceUpdate();
-            }
-            else this.props.onError()
-        }
+    componentWillReceiveProps() {
+        this.initMap()
+        this.getCurrentPosition()
+        this.forceUpdate();
     }
     componentDidMount() {
-        const { isScriptLoaded, isScriptLoadSucceed } = this.props
-        if (isScriptLoaded && isScriptLoadSucceed) {
-            this.initMap()
-            this.ifUpdatedByDev = true;
-            this.getCurrentPosition()
-            this.forceUpdate();
-        }
+        this.initMap()
+        this.getCurrentPosition()
+        this.forceUpdate();
     }
     initMap() {
-        console.log(this.state.userLocation)
         var location = {
-            lat: 50.950228,
-            lng: 3.142707
+            latitude: 50.950228,
+            longitude: 3.142707,
+            latitudeDelta: 0.04,
+            longitudeDelta: 0.04
         }
         if (!isNullOrUndefined(this.state.userLocation)) {
             console.log("found location")
             location = this.state.userLocation
         }
-        this.map = <MapComponent location={location} mapElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />} containerElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />}></MapComponent>
+        // this.map = <MapComponent location={location} mapElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />} containerElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />}></MapComponent>
+        this.map = (
+            <MapComponent initialRegion={location} onUserLocationChange={this.onUserLocationChange} />
+        )
     }
-    componentDidUpdate() {
-        if (this.ifUpdatedByDev) {
-            this.ifUpdatedByDev = false;
-        }
-    }
+
     showGymDialog() {
         this.setState((prevState) => ({
             ...prevState,
@@ -68,6 +66,13 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
             isDialogVisible: show
         }))
     }
+    onUserLocationChange(location) {
+        var coordinate = location.nativeEvent.coordinate
+        this.setState((prevState) => ({
+            ...prevState,
+            userLocation: { latitude: coordinate.latitude, longitude: coordinate.longitude, latitudeDelta: 0.04, longitudeDelta: 0.04 },
+        }))
+    }
     getCurrentPosition() {
         if (this.weCanGetGeolocation()) {
             return navigator.geolocation.getCurrentPosition(
@@ -76,7 +81,7 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
 
                     this.setState((prevState) => ({
                         ...prevState,
-                        userLocation: { lat: latitude, lng: longitude },
+                        userLocation: { latitude: latitude, longitude: longitude },
                         locationLoading: false
                     }))
                 },

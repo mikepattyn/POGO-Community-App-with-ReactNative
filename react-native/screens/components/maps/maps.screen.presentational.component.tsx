@@ -1,7 +1,6 @@
-import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Text, Keyboard } from "react-native";
 import React from "react";
-import scriptLoader from 'react-async-script-loader'
-import { Dialog, DialogContent } from 'react-native-popup-dialog';
+import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import { MapsScreenContainer } from "./maps.screen.container.component";
 import { Input, Button } from "react-native-elements"
 
@@ -18,9 +17,10 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
         this.showGymDialog = this.showGymDialog.bind(this)
     }
     render() {
+        console.log(this.map)
         return (
             <View style={styles.container}>
-                <View style={{ height: 300, width: 40, position: "absolute", right: 10, top: 80, zIndex: 1 }}>
+                <View style={{ height: 300, width: 40, position: "absolute", right: 10, top: 10, zIndex: 1 }}>
                     <TouchableOpacity activeOpacity={0.5} onPress={this.showGymDialog}>
                         <Image
                             source={require('./../maps/images/gymplus.png')}
@@ -35,14 +35,33 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
                             ...prevState,
                             isDialogVisible: false
                         }))
+                        Keyboard.dismiss()
                     }}
+                    dialogTitle={<DialogTitle title="Enter gymname" />}
+                    footer={
+                        <DialogFooter>
+                            <DialogButton
+                                text="SUBMIT"
+                                onPress={() => { }}
+                            />
+                            <DialogButton
+                                text="CANCEL"
+                                onPress={() => {
+                                    this.setState((prevState) => ({
+                                        ...prevState,
+                                        isDialogVisible: false
+                                    }))
+                                    Keyboard.dismiss()
+                                }}
+                            />
+                        </DialogFooter>
+                    }
+                    width={0.8}
                 >
                     <DialogContent>
-                        <Text style={{ textAlign: "center", fontWeight: "bold", marginTop: 20 }}>Enter gymname</Text>
-                        <View style={{ width: "100%", marginVertical: 20 }}>
-                            <Input inputStyle={{ color: "#e1e1e1", textAlign: "center", textAlignVertical: "center" }} value={this.state.currentDialogValue} placeholder="Gymname" onChangeText={(text) => this.onChangeDialogInput(text)} />
+                        <View style={{ width: "100%", height: 30, display: "flex", marginTop: 10, alignContent: "center", justifyContent: "center" }}>
+                            <Input inputStyle={{ color: "#e1e1e1", textAlign: "left", textAlignVertical: "center" }} value={this.state.currentDialogValue} placeholder="Gymname" onChangeText={(text) => this.onChangeDialogInput(text)} />
                         </View >
-                        <Button title="Next" onPress={() => console.log("submitttttted - the state is: " + this.state.currentDialogValue)} />
                     </DialogContent>
                 </Dialog>
                 {this.map}
@@ -57,14 +76,15 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: 'flex-end',
         alignItems: 'center',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        position: 'absolute'
     },
     map: {
         ...StyleSheet.absoluteFillObject,
     },
 });
 
-export default scriptLoader(
-    [
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyBGfwXcsfS0CqyTn6fsVCZQTK-wmwWRV0Q',
-    ]
-)(MapsScreen)
+export default MapsScreen

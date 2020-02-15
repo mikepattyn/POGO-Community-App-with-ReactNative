@@ -1,5 +1,6 @@
-import React from "react"
-import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import React, { Component } from "react"
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { View, Image } from "react-native";
 
 const info = [
     {
@@ -19,11 +20,24 @@ const info = [
     }
 ]
 
-export const MapComponent = withGoogleMap((props: any) =>
-    <GoogleMap
-        defaultZoom={18}
-        defaultCenter={props.location}
-    >
-        {info.map((obj, key) => <Marker key={key} title={obj.title} position={{ lat: obj.lat, lng: obj.lng }} icon={{ url: require('./../maps/images/gymlogo.png'), scaledSize: new google.maps.Size(22, 24) }} />)}
-    </GoogleMap>
-)
+export class MapComponent extends Component<any> {
+    render() {
+        return (
+            <MapView
+            style={{ flex: 1, height: "100%", width: "100%" }}
+            provider={PROVIDER_GOOGLE} // when you didnt add this line, you get apple maps
+            initialRegion={this.props.initialRegion}
+            onRegionChange={(region) => console.log(`Region: ${region}`)}
+            onUserLocationChange={(location) => this.props.onUserLocationChange(location)}
+            showsUserLocation={true}
+        >
+            {info.map((obj, key) => <Marker key={key} title={obj.title} coordinate={{ latitude: obj.lat, longitude: obj.lng }}>
+                <View>
+                    <Image source={require('./../maps/images/gymlogo.png')} style={{height: 22, width: 24}} resizeMode="contain"/>
+                </View>
+            </Marker>)}
+    
+        </MapView>
+        )
+    }
+}

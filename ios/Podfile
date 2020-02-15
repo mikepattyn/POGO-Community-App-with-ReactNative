@@ -5,6 +5,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods'
 target 'POGOCommunityApp' do
 
   rnPrefix = "../node_modules/react-native"
+  nodeModulesPrefix = "../node_modules"
   
   # React Native and its dependencies
   pod 'FBLazyVector', :path => "#{rnPrefix}/Libraries/FBLazyVector"
@@ -33,6 +34,8 @@ target 'POGOCommunityApp' do
   pod 'ReactCommon/turbomodule/core', :path => "#{rnPrefix}/ReactCommon"
   pod 'Yoga', :path => "#{rnPrefix}/ReactCommon/yoga"
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
+
+
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
 
@@ -41,9 +44,24 @@ target 'POGOCommunityApp' do
   pod 'RNReanimated', :podspec => '../node_modules/react-native-reanimated/RNReanimated.podspec'
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
   pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+  
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'  # Remove this line if you don't want to support GoogleMaps on iOS
+  pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
+  pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
+  
   # Automatically detect installed unimodules
   use_unimodules!
 
-  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+end
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == 'react-native-google-maps'
+      target.build_configurations.each do |config|
+        config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+      end
+    end
+  end
 end
