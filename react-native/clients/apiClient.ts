@@ -1,12 +1,16 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios"
-import { isNullOrUndefined } from "util";
-import { injectable } from "inversify";
+import { isNullOrUndefined, isNull } from "util";
 import { requestInterceptor, errorInterceptor } from "./interceptors";
 
-@injectable()
-export class ApiClient {
-
-    private baseUrl: string | undefined = "http://localhost:3000/api/v1";
+export default class ApiClient {
+    static myInstance = null;
+    static get instance() {
+        if(isNull(ApiClient.myInstance)) {
+            this.myInstance = new ApiClient()
+        }
+        return this.myInstance
+    }
+    private baseUrl: string | undefined = "http://192.168.1.8:54353/api/v1";
 
     constructor() {
         // Add a request interceptor

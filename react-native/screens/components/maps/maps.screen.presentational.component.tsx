@@ -3,11 +3,13 @@ import React from "react";
 import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import { MapsScreenContainer } from "./maps.screen.container.component";
 import { Input, Button } from "react-native-elements"
+import ApiClient from "../../../clients/apiClient";
 
 export interface MapScreenState {
     isDialogVisible: boolean
 }
 class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
+    private apiClient: ApiClient
     constructor(props) {
         super(props)
         this.state = {
@@ -15,6 +17,7 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
             currentDialogValue: ""
         }
         this.showGymDialog = this.showGymDialog.bind(this)
+        this.apiClient = ApiClient.instance
     }
     render() {
         console.log(this.map)
@@ -42,7 +45,14 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
                         <DialogFooter>
                             <DialogButton
                                 text="SUBMIT"
-                                onPress={() => { }}
+                                onPress={async () => {
+                                    var locationResponse = await this.apiClient.post("/locations", { Latitude: this.state.userLocation.latitude, Longtitude: this.state.userLocation.longitude })
+                                    console.log(locationResponse)
+                                    if(locationResponse.status === 201) {
+                                        var gymResponse = await this.apiClient.post("/gyms", {Name: "", LocationId: locationResponse.data.id})
+                                        console.log(gymResponse.data);
+                                    }
+                                }}
                             />
                             <DialogButton
                                 text="CANCEL"
