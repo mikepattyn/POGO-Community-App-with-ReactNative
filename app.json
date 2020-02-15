@@ -12,6 +12,15 @@
       "ios",
       "android",
       "web"
-    ]
+    ],
+    "web": {
+      "build": {
+        "babel": {
+          "include": [
+            "static-container"
+          ]
+        }
+      }
+    }
   }
 }

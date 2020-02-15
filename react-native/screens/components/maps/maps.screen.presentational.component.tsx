@@ -1,8 +1,10 @@
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
 import React from "react";
 import scriptLoader from 'react-async-script-loader'
-import DialogInput from 'react-native-dialog-input';
+import { Dialog, DialogContent } from 'react-native-popup-dialog';
 import { MapsScreenContainer } from "./maps.screen.container.component";
+import { Input, Button } from "react-native-elements"
+
 export interface MapScreenState {
     isDialogVisible: boolean
 }
@@ -10,8 +12,10 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
     constructor(props) {
         super(props)
         this.state = {
-            isDialogVisible: true
+            isDialogVisible: false,
+            currentDialogValue: ""
         }
+        this.showGymDialog = this.showGymDialog.bind(this)
     }
     render() {
         return (
@@ -24,28 +28,27 @@ class MapsScreen extends MapsScreenContainer<any, MapScreenState> {
                         />
                     </TouchableOpacity>
                 </View>
-                <DialogInput isDialogVisible={this.state.isDialogVisible}
-                    title={"DialogInput 1"}
-                    message={"Message for DialogInput #1"}
-                    hintInput={"HINT INPUT"}
-                    submitInput={(inputText) => { this.sendInput(inputText) }}
-                    closeDialog={(e) => { e.preventDefault(); console.log("pressed cancel") }}>
-                </DialogInput>
+                <Dialog
+                    visible={this.state.isDialogVisible}
+                    onTouchOutside={() => {
+                        this.setState((prevState) => ({
+                            ...prevState,
+                            isDialogVisible: false
+                        }))
+                    }}
+                >
+                    <DialogContent>
+                        <Text style={{ textAlign: "center", fontWeight: "bold", marginTop: 20 }}>Enter gymname</Text>
+                        <View style={{ width: "100%", marginVertical: 20 }}>
+                            <Input inputStyle={{ color: "#e1e1e1", textAlign: "center", textAlignVertical: "center" }} value={this.state.currentDialogValue} placeholder="Gymname" onChangeText={(text) => this.onChangeDialogInput(text)} />
+                        </View >
+                        <Button title="Next" onPress={() => console.log("submitttttted - the state is: " + this.state.currentDialogValue)} />
+                    </DialogContent>
+                </Dialog>
                 {this.map}
             </View>
         );
     }
-    sendInput(input: any) {
-        console.log(input)
-    }
-
-    showDialog(show: boolean) {
-        this.setState((prevState) => ({
-            ...prevState,
-            isDialogVisible: show
-        }))
-    }
-
 }
 const styles = StyleSheet.create({
     container: {

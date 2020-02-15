@@ -19,13 +19,10 @@ const info = [
     }
 ]
 
-export const MapComponent = withGoogleMap((props) =>
+export const MapComponent = withGoogleMap((props: any) =>
     <GoogleMap
-        defaultZoom={12}
-        defaultCenter={{
-            lat: 50.950228,
-            lng: 3.142707
-        }}
+        defaultZoom={18}
+        defaultCenter={props.location}
     >
         {info.map((obj, key) => <Marker key={key} title={obj.title} position={{ lat: obj.lat, lng: obj.lng }} icon={{ url: require('./../maps/images/gymlogo.png'), scaledSize: new google.maps.Size(22, 24) }} />)}
     </GoogleMap>
