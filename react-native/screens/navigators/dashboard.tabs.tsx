@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ProfileScreen } from "../components/profile/profile.screen";
-import MapsScreen from "../components/maps/maps.screen";
+import MapsScreen from "../components/maps/maps.screen.presentational.component";
 import React from "react";
 const DashboardTabNavigator = createBottomTabNavigator()
 export const DashboardTabs = () => {
@@ -22,7 +22,7 @@ export const DashboardTabs = () => {
                         if (route.name === 'Profile') {
                             iconName = focused ? 'account-circle' : 'account-circle-outline'
                         } else if (route.name === 'Maps') {
-                            iconName = focused ? 'crosshairs-gps' : 'crosshairs';
+                            iconName = 'map-marker';
                         }
                         return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
                     }
