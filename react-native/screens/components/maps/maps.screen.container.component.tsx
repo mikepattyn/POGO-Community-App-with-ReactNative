@@ -15,13 +15,13 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
     map: any
     // _mapView: MapView
     componentWillReceiveProps() {
-        this.initMap()
         this.getCurrentPosition()
+        this.initMap()
         this.forceUpdate();
     }
     componentDidMount() {
-        this.initMap()
         this.getCurrentPosition()
+        this.initMap()
         this.forceUpdate();
     }
     initMap() {
