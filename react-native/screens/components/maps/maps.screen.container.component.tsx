@@ -53,13 +53,13 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
             currentDialogValue: text
         }))
     }
-    onSubmitDialog() {
+    async onSubmitDialog() {
         this.setState((prevState) => ({
             ...prevState,
             gymName: this.state.currentDialogValue,
             currentDialogValue: ""
         }))
-        this.gymManager.addGym(this.state.gymName, this.state.userLocation)
+        console.log(`Response: ${await this.gymManager.addGym(this.state.gymName, this.state.userLocation)}`)
     }
     onPressOutsideDialog() {
         this.setState((prevState) => ({

@@ -13,11 +13,9 @@ export default class GymManager implements IGymManager {
     }
     async addGym(name: string, position: LatLng): Promise<void> {
         var locationResponse = await ApiClient.instance.post("/locations", { Latitude: position.latitude, Longtitude: position.longitude })
-        console.log(locationResponse)
-        if (locationResponse.status === 201) {
-            console.log(`Sending gym: ${name} with location: ${position}`)
-            var gymResponse = await ApiClient.instance.post("/gyms", { Name: name, LocationId: locationResponse.data.id })
-            console.log(gymResponse.data);
+        if(locationResponse.status >= 200 && locationResponse.status < 300) {
+            console.log(`Sending name: ${name} - Location: ${JSON.stringify(position)}`)
+            return await ApiClient.instance.post("/gyms", { Name: name, LocationId: locationResponse.data.id })
         }
     }
     getGyms(): GymView[] {
