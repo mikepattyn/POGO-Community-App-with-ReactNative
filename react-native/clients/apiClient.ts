@@ -10,7 +10,7 @@ export default class ApiClient {
         }
         return this.myInstance
     }
-    private baseUrl: string | undefined = "http://192.168.1.8:54353/api/v1";
+    private baseUrl: string | undefined = "http://192.168.77.51:54353/api/v1";
 
     constructor() {
         // Add a request interceptor

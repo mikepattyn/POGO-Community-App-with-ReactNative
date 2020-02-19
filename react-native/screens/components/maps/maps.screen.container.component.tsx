@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { MapComponent } from "./maps.component";
 import { isNullOrUndefined } from "util";
-import { View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
+import { Keyboard } from "react-native";
+import  GymManager from "../../../managers/gym.manager";
 
 export class MapsScreenContainer<P, S> extends Component<any, any> {
-    /**
-     *
-     */
+    private gymManager:GymManager = GymManager.instance
     constructor(props) {
         super(props);
         this.onUserLocationChange = this.onUserLocationChange.bind(this)
@@ -37,15 +35,17 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
         }
         // this.map = <MapComponent location={location} mapElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />} containerElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />}></MapComponent>
         this.map = (
-            <MapComponent initialRegion={location} onUserLocationChange={this.onUserLocationChange} />
+            <MapComponent initialRegion={location} onUserLocationChange={this.onUserLocationChange}  />
         )
     }
 
     showGymDialog() {
+        console.log('show gym dialog called')
         this.setState((prevState) => ({
             ...prevState,
             isDialogVisible: true
         }))
+        this.forceUpdate();
     }
     onChangeDialogInput(text: string) {
         this.setState((prevState) => ({
@@ -59,6 +59,14 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
             gymName: this.state.currentDialogValue,
             currentDialogValue: ""
         }))
+        this.gymManager.addGym(this.state.gymName, this.state.userLocation)
+    }
+    onPressOutsideDialog() {
+        this.setState((prevState) => ({
+            ...prevState,
+            isDialogVisible: false
+        }))
+        Keyboard.dismiss()
     }
     showDialog(show: boolean) {
         this.setState((prevState) => ({
@@ -96,7 +104,7 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
             )
         }
     }
-
+    
     weCanGetGeolocation() {
         return !isNullOrUndefined(navigator.geolocation)
     }
