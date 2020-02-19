@@ -18,8 +18,8 @@ export default class GymManager implements IGymManager {
             return await ApiClient.instance.post("/gyms", { Name: name, LocationId: locationResponse.data.id })
         }
     }
-    getGyms(): GymView[] {
-        throw new Error("Method not implemented.");
+    async getGyms(): Promise<GymView[]> {
+        return await ApiClient.instance.get("/gyms");
     }
 }
 
