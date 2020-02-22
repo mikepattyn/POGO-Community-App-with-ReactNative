@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { MapComponent } from "./maps.component";
+import { View, Keyboard } from "react-native";
 import { isNullOrUndefined } from "util";
-import { Keyboard } from "react-native";
-import  GymManager from "../../../managers/gym.manager";
+import { MapComponent } from "../../../elements/maps.component";
+import GymManager from "../../../../managers/gym.manager";
+import { LatLng } from "react-native-maps";
 
-export class MapsScreenContainer<P, S> extends Component<any, any> {
-    private gymManager:GymManager = GymManager.instance
+export interface GymScreenState {
+    userLocation: LatLng
+    gymName: string
+    currentDialogValue: string
+    isDialogVisible: boolean
+}
+
+export class GymScreenContainerComponent<P, S> extends Component<any, GymScreenState> {
+    private gymManager: GymManager = GymManager.instance
     constructor(props) {
         super(props);
         this.onUserLocationChange = this.onUserLocationChange.bind(this)
@@ -25,9 +33,7 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
     initMap() {
         var location = {
             latitude: 50.950228,
-            longitude: 3.142707,
-            latitudeDelta: 0.04,
-            longitudeDelta: 0.04
+            longitude: 3.142707
         }
         if (!isNullOrUndefined(this.state.userLocation)) {
             console.log("found location")
@@ -35,7 +41,7 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
         }
         // this.map = <MapComponent location={location} mapElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />} containerElement={<div style={{ flex: 1, height: "100%", width: "100%" }} />}></MapComponent>
         this.map = (
-            <MapComponent initialRegion={location} onUserLocationChange={this.onUserLocationChange}  />
+            <MapComponent initialRegion={location} onUserLocationChange={this.onUserLocationChange} />
         )
     }
 
@@ -104,7 +110,7 @@ export class MapsScreenContainer<P, S> extends Component<any, any> {
             )
         }
     }
-    
+
     weCanGetGeolocation() {
         return !isNullOrUndefined(navigator.geolocation)
     }
